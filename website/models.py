@@ -32,8 +32,6 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f'User {self.first_name, self.surname}'
     
-   
-        
     @property
     def password(self):
         return self.password
@@ -44,7 +42,6 @@ class User(db.Model, UserMixin):
     
     def check_password_correction(self, attempted_password):
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
-    
     
 class Vehicle(db.Model):
     __tablename__='Vehicles'
@@ -73,10 +70,6 @@ class Vehicle(db.Model):
     def __repr__(self):
         return f'Vehicle {self.item_name}'
     
-    
-
-    
-
     def to_dict(self):
         return {
             "id": self.id,
@@ -100,8 +93,6 @@ class Vehicle(db.Model):
             "owner_id":self.owner_id,
             }
     
-
-
 class Temporary_order(db.Model):
     __tablename__='~Temporary orders'
     id= db.Column(db.Integer, primary_key=True)
@@ -129,7 +120,6 @@ class Temporary_order(db.Model):
                 "daily_price":self.daily_price,
                 "order_price":self.order_price,
                 }
-    
     
 class Order(db.Model):
     __tablename__='Orders'
@@ -160,9 +150,6 @@ class Order(db.Model):
                 "order_price":self.order_price,
                 }
     
-
-
-
 class Payment(db.Model):
     __tablename__='Payments'
     id=db.Column(db.Integer, primary_key=True)

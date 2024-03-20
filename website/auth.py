@@ -1,4 +1,4 @@
-from website.forms import RegisterForm, LoginForm, PurchaseItemForm, DeleteItemForm, ProductFilterForm,OrderTimeForm,PaymentForm
+from website.forms import RegisterForm, LoginForm, ProductFilterForm,OrderTimeForm,PaymentForm
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session
 from flask_login import login_user, logout_user, login_required, current_user
 from website.models import Vehicle, User, db, Order, Temporary_order, Payment
@@ -8,6 +8,8 @@ import random
 import json
 import re
 from sqlalchemy import and_
+
+
 auth = Blueprint('auth', __name__)
 
 
@@ -17,6 +19,7 @@ def register_page():
     #print(form.data)
     #print(form.birth.data)
     print(repr(form.birth.data))
+
     if form.validate_on_submit():
         try:    
             user_to_create= User(first_name= form.first_name.data, surname=form.surname.data, email_address= form.email_address.data, password= form.password1.data , gender=str(form.gender.data), phone_code=str(form.phone_code.data), phone_number=form.phone_number.data,birth=form.birth.data, driver_license=form.driver_license.data, id_passport=form.id_passport.data, category=str(form.category.data))
@@ -31,8 +34,6 @@ def register_page():
             flash('ID passport or Driver license already exists! Please try a different one.', category='danger')
             return render_template('register_page.html', form=form)
     
-   #else:
-        #if form.email_address.data 
     if form.errors != {}: 
         for err_msg in form.errors.values():
             if err_msg == ['Email address already exists! Please try a different email address']:
@@ -51,9 +52,10 @@ def register_page():
 def login_page():
     form = LoginForm()
     print(form.password.data)
+
     if form.validate_on_submit():
         print(form.email.data)
-        attempted_user= User.query.filter_by(email_address=form.email.data).first()       #quando trabalhamos diretamente com a base de dados precisamos usar o query.filter_by().first()
+        attempted_user= User.query.filter_by(email_address=form.email.data).first()
         if attempted_user and attempted_user.check_password_correction(attempted_password=form.password.data):
             login_user(attempted_user)
             flash(f'Success! You are logged in as: {attempted_user.first_name} {attempted_user.surname}', category='success')
@@ -64,7 +66,6 @@ def login_page():
             elif attempted_user.check_password_correction(attempted_password=form.password.data) == False:
                 flash('Password is incorrect! Please try another one', category= 'danger')
 
-            
     else:
         print(form.errors)
     return render_template('login_page.html', form=form)
@@ -81,7 +82,6 @@ def logout_page():
 def market_page():
     product_filter=ProductFilterForm()
     
-           
     if request.method == 'GET':
         cart=Order.query.filter_by(owner_id=current_user.id, state="Live").all()
 
@@ -167,22 +167,19 @@ def market_page():
         vehicles = vehicles.all()
 
         
-    return render_template('market_page.html', cart=cart,brand_filter=brand_filter, vehicles=vehicles, product_filter=product_filter)
+    return render_template('market_page.html', cart=cart, brand_filter=brand_filter, vehicles=vehicles, product_filter=product_filter)
 
 @auth.route('/reset_filter', methods=['GET'])
 def reset_filter():
-    # Lógica para redefinir o filtro
-    # Pode envolver a remoção do filtro da sessão ou reinicialização dos valores, dependendo da sua implementação
-
-    # Redirecionar de volta para a página original
+    # Logic for resetting the filter
+    # Redirect back to original page
     return redirect(url_for('auth.market_page'))
-
 
 @auth.route("/product_page/<int:vehicle_id>", methods=['POST', 'GET'])
 @login_required
+
 def product_page(vehicle_id):
     ordertimeform= OrderTimeForm()
-    purchase_form = PurchaseItemForm()
     
     if request.method =='POST':
         days=0
@@ -206,14 +203,14 @@ def product_page(vehicle_id):
                 check_out = ordertimeform.finish.data
 
                 if check_in >= date.today() and check_out >= date.today() and check_out > check_in:
-                        # Converta as datas para objetos datetime
+                        # Convert dates to datetime objects
                     check_in_datetime = datetime.combine(check_in, datetime.min.time())
                     check_out_datetime = datetime.combine(check_out, datetime.min.time())
                     is_vehicle_repeated = Vehicle.query.filter_by(owner_id = None).first()
                     temp_order_repreated= Temporary_order.query.filter_by(product_id=vehicle.id).first()
 
                     if is_vehicle_repeated:    
-                        # Calcule a diferença em dias
+                        # Calculate the difference in days
                         days = (check_out_datetime - check_in_datetime).days
                         is_temp_order=Temporary_order.query.filter_by(product_id=vehicle.id, owner_id=current_user.id).first()
                         existing_order = Order.query.filter_by(product_id=vehicle.id, owner_id=current_user.id, state="Live").first()
@@ -259,7 +256,6 @@ def product_page(vehicle_id):
                                     order_price=vehicle.daily_price * days
                                 )
                             
-                            
                             if is_temp_order is not None:
                                 db.session.delete(is_temp_order)
                                 db.session.commit()
@@ -278,12 +274,9 @@ def product_page(vehicle_id):
                 else:
                     flash("We can't guarantee this dates. Please try again!", category='danger')
                     
-
-            
             else:
                 flash('Your renting time is not defined! Please try again', category='danger')
             return render_template('product_page.html', ordertimeform=ordertimeform, vehicle=vehicle)
-        
         
     if request.method =='GET':
         cart=Order.query.filter_by(owner_id=current_user.id, state="Live").all()
@@ -294,13 +287,10 @@ def product_page(vehicle_id):
         related_products=random.sample(related_filter, min(5, len(related_filter))) # select until 5 random products with same price 
         check_in=ordertimeform.start.data
         check_out=ordertimeform.finish.data
-        return render_template('product_page.html', vehicle_id=vehicle_id, cart=cart, days=days, ordertimeform=ordertimeform, vehicle=vehicle, purchase_form=purchase_form,related_products=related_products)
+        return render_template('product_page.html', vehicle_id=vehicle_id, cart=cart, days=days, ordertimeform=ordertimeform, vehicle=vehicle, related_products=related_products)
 
 
-
-    
 @auth.route("/cart_page", methods=['GET', 'POST'])
-
 @login_required
 
 def purchase():
@@ -423,7 +413,6 @@ def purchase():
         vehicles_nr = len(temp_orders_list)  # Number of vehicles in cart
         final_price_vehicle = sum(temp_order['temp_order'].daily_price * temp_order['temp_order'].days for temp_order in temp_orders_list)
 
-
         return render_template('cart_page.html', cart=cart,temp_orders=temp_orders, final_price_order=final_price_order, temp_orders_list=temp_orders_list, final_price_vehicle=final_price_vehicle, vehicles_nr=vehicles_nr)
     
 @auth.route('/cart-management', methods=['GET','POST'])
@@ -463,8 +452,6 @@ def order_management():
                     return redirect(url_for('views.home_page'))
                 else:
                     flash('Order not found.', category='danger')
-
-        
                            
     elif request.method == 'GET':
         orders= Order.query.filter_by(owner_id=current_user.id, state="Live").all()
@@ -479,7 +466,6 @@ def order_management():
                 if order.finish.date() < date.today() :
                     order.state = "Finished"
                     vehicle.owner_id=None
-        
         
         try: 
             return render_template('cart_management_page.html', orders_list=orders_list, vehicle=vehicle)

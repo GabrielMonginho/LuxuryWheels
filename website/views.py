@@ -10,7 +10,6 @@ views = Blueprint('views', __name__)
 
 def home_page():
 
-
     if request.method =='GET':
 
         if current_user.is_authenticated:
@@ -25,7 +24,6 @@ def home_page():
                         db.session.commit()
             return render_template('home_page.html', cart=cart)
         else:
-
             return render_template('home_page.html')
     
     

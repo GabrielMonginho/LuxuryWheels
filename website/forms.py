@@ -26,18 +26,10 @@ class RegisterForm (FlaskForm):
         
     submit = SubmitField(label='Create Account')
 
-
 class LoginForm(FlaskForm):
     email= StringField(label='Email:', validators=[DataRequired()])
     password= PasswordField(label='Password:', validators=[DataRequired()])
     submit = SubmitField(label='Log in')
-
-class PurchaseItemForm(FlaskForm):
-    submit=SubmitField(label='Purchase Item!')
-
-class DeleteItemForm(FlaskForm):
-    submit=SubmitField()
-
 
 class OrderTimeForm(FlaskForm):
     start = DateField('Check-in', format='%Y-%m-%d')
@@ -56,6 +48,5 @@ class ProductFilterForm(FlaskForm):
     doors = SelectField(label='Doors', choices=[('Select number of doors'),('2'), ('4'), ('5')], validators=[DataRequired()])
     fuel = SelectField(label='Fuel', choices=[('Select fuel'),('Gasoline'), ('Diesel'), ('Eletric'),('Hybrid'),('Natural Gas')], validators=[DataRequired()])
     
-     
 class PaymentForm(FlaskForm):
     card_type= SelectField(label='Card type', choices=[('Visa'),('Mastercard'),('Paypal'), ('MB Way')], validators=[DataRequired()])
