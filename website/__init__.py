@@ -1,9 +1,9 @@
-from website.models import db,User,Vehicle, bcrypt, login_manager
+from website.models import db, User, Vehicle, bcrypt, login_manager
 from flask import Flask, render_template
 from website.views import views
 from website.auth import auth
-from os import path
 from datetime import datetime
+from os import path
 
 
 app=Flask(__name__)
