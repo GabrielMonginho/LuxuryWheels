@@ -16,10 +16,7 @@ auth = Blueprint('auth', __name__)
 @auth.route('/register', methods=['GET', 'POST'])
 def register_page():
     form = RegisterForm()
-    #print(form.data)
-    #print(form.birth.data)
-    print(repr(form.birth.data))
-
+    
     if form.validate_on_submit():
         try:    
             user_to_create= User(first_name= form.first_name.data, surname=form.surname.data, email_address= form.email_address.data, password= form.password1.data , gender=str(form.gender.data), phone_code=str(form.phone_code.data), phone_number=form.phone_number.data,birth=form.birth.data, driver_license=form.driver_license.data, id_passport=form.id_passport.data, category=str(form.category.data))
@@ -29,8 +26,8 @@ def register_page():
             login_user(user_to_create)
             flash(f"Account created successfully! You are now logged in as {user_to_create.first_name}", category="success")
             return redirect(url_for('views.home_page'))
+        
         except IntegrityError:
-            
             flash('ID passport or Driver license already exists! Please try a different one.', category='danger')
             return render_template('register_page.html', form=form)
     
@@ -51,11 +48,10 @@ def register_page():
 @auth.route('/login', methods=['GET', 'POST'])
 def login_page():
     form = LoginForm()
-    print(form.password.data)
 
     if form.validate_on_submit():
-        print(form.email.data)
         attempted_user= User.query.filter_by(email_address=form.email.data).first()
+        
         if attempted_user and attempted_user.check_password_correction(attempted_password=form.password.data):
             login_user(attempted_user)
             flash(f'Success! You are logged in as: {attempted_user.first_name} {attempted_user.surname}', category='success')
@@ -68,6 +64,7 @@ def login_page():
 
     else:
         print(form.errors)
+
     return render_template('login_page.html', form=form)
 
 
@@ -140,7 +137,6 @@ def market_page():
         if brand_filter != 'Select brand':
             vehicles = filter_by_brand(vehicles, brand_filter)
         
-             
         if doors_filter != 'Select category':
             vehicles = filter_by_doors(vehicles, doors_filter)
         
@@ -166,7 +162,6 @@ def market_page():
 
         vehicles = vehicles.all()
 
-        
     return render_template('market_page.html', cart=cart, brand_filter=brand_filter, vehicles=vehicles, product_filter=product_filter)
 
 @auth.route('/reset_filter', methods=['GET'])
@@ -203,22 +198,24 @@ def product_page(vehicle_id):
                 check_out = ordertimeform.finish.data
 
                 if check_in >= date.today() and check_out >= date.today() and check_out > check_in:
-                        # Convert dates to datetime objects
+                        #Convert dates to datetime objects
                     check_in_datetime = datetime.combine(check_in, datetime.min.time())
                     check_out_datetime = datetime.combine(check_out, datetime.min.time())
                     is_vehicle_repeated = Vehicle.query.filter_by(owner_id = None).first()
                     temp_order_repreated= Temporary_order.query.filter_by(product_id=vehicle.id).first()
 
                     if is_vehicle_repeated:    
-                        # Calculate the difference in days
+                        #Calculate the difference in days
                         days = (check_out_datetime - check_in_datetime).days
                         is_temp_order=Temporary_order.query.filter_by(product_id=vehicle.id, owner_id=current_user.id).first()
                         existing_order = Order.query.filter_by(product_id=vehicle.id, owner_id=current_user.id, state="Live").first()
                         new_price=0
                         if days == 0:
                             flash('Please select a longer renting time!')
+
                         elif is_temp_order:
                             flash('You already choose this vehicle. Please try another one!', category='danger')
+
                         elif existing_order:
                             old_price= existing_order.order_price
                             temp_order = Temporary_order(
@@ -280,7 +277,6 @@ def product_page(vehicle_id):
         
     if request.method =='GET':
         cart=Order.query.filter_by(owner_id=current_user.id, state="Live").all()
-       
         days=0
         vehicle = Vehicle.query.filter_by(id=vehicle_id).first()
         related_filter= Vehicle.query.filter_by(item_price=vehicle.item_price, item_type=vehicle.item_type).all()
@@ -298,18 +294,23 @@ def purchase():
     if request.method == 'POST':
         if 'order_id_to_delete' in request.form:
             order_id_to_delete = request.form.get('order_id_to_delete')
+
             if order_id_to_delete:
                 order_to_delete = Temporary_order.query.get(order_id_to_delete)
+
                 if order_to_delete:
                     db.session.delete(order_to_delete)
                     db.session.commit()
                     flash('Order successfully deleted.', category='success')
+
                 else:
                     flash('Order not found.', category='danger')
+
             return redirect(url_for('auth.purchase'))
         
         if 'purchase' in request.form:
             temp_orders = Temporary_order.query.filter_by(owner_id=current_user.id).all()
+
             if not temp_orders:
                 flash('Please add some vehicles to your cart and try again!', category='danger')
                 return redirect(url_for('auth.purchase'))
@@ -322,7 +323,7 @@ def purchase():
                     if existing_order:
                         
                         
-                        # Update existing order
+                        #Update existing order
                         existing_order.product_id = temp_order.product_id
                         existing_order.days = temp_order.days
                         existing_order.start = temp_order.start
@@ -339,7 +340,7 @@ def purchase():
                             db.session.add(payment)
                             flash('Your rent was exchanged. Please confirm all the details', category='success')
                     else:
-                        # Create new order
+                        #Create new order
                         if temp_order.finish.date() > date.today() and temp_order.start.date() >= date.today():
                             new_order = Order(
                                 product_id=temp_order.product_id,
@@ -350,26 +351,25 @@ def purchase():
                                 daily_price=temp_order.daily_price,
                                 order_price=temp_order.order_price,
                                 state= "Live"
-                                
                             )
                             db.session.add(new_order)
                             db.session.commit()
                             
                             payment= Payment(amount= session.get('final_price_order'), card_type=str(request.form.get('paymentMethod')), id_user=current_user.id, id_order=new_order.id)
+
                             if payment.card_type == "":
-                                
                                 flash('Please select a card type!', category='danger')
                                 return redirect(url_for('auth.purchase'))
                             else:
                                 db.session.add(payment)
                                 flash('Your rent are done. Have a nice ride!', category='success')
-                        # Remove temporary order
+                        #Remove temporary order
                     db.session.delete(temp_order)
                 
-                # Update vehicle owner_id
+                #Update vehicle owner_id
                 vehicle_ordered.owner_id = current_user.id
             
-            # Commit changes
+            #Commit changes
             db.session.commit()
             
             return redirect(url_for('views.home_page'))
@@ -395,13 +395,13 @@ def purchase():
             existing_order = Order.query.filter_by(product_id=temp_order.product_id, owner_id=current_user.id, state="Live").first()
             
             if existing_order:
-                # Calculate the price exchange if there is an existing order
+                #Calculate the price exchange if there is an existing order
                 price_exchange = temp_order.order_price - existing_order.order_price
                 final_price_order += price_exchange
                 if final_price_order < 0:
                     flash('The price exchange will be refunded to you.', category='info')
             else:
-                # For new orders, simply add the order price
+                #For new orders, simply add the order price
                 final_price_order += temp_order.order_price
             
             if vehicle:
@@ -410,7 +410,7 @@ def purchase():
                     'vehicle': vehicle
                 })
         session['final_price_order'] = final_price_order
-        vehicles_nr = len(temp_orders_list)  # Number of vehicles in cart
+        vehicles_nr = len(temp_orders_list)  #Number of vehicles in cart
         final_price_vehicle = sum(temp_order['temp_order'].daily_price * temp_order['temp_order'].days for temp_order in temp_orders_list)
 
         return render_template('cart_page.html', cart=cart,temp_orders=temp_orders, final_price_order=final_price_order, temp_orders_list=temp_orders_list, final_price_vehicle=final_price_vehicle, vehicles_nr=vehicles_nr)
@@ -436,20 +436,20 @@ def order_management():
                 else:
                     flash('Order not found.', category='danger')
             return redirect(url_for('auth.market_page'))
+        
         if 'check_out' in request.form:
             check_out = request.form.get('check_out')
             if check_out:
-                print('check out',check_out)
                 order_to_check_out=Order.query.filter_by(id=check_out).first()
-                print('order to check out',order_to_check_out)
+
                 if order_to_check_out:
-                    
                     vehicle =Vehicle.query.filter_by(id= order_to_check_out.product_id).first()
                     vehicle.owner_id= None
                     order_to_check_out.state="Finished"
                     db.session.commit()
                     flash('Check out successfull. Thank you for your choice!', category='success')
                     return redirect(url_for('views.home_page'))
+                
                 else:
                     flash('Order not found.', category='danger')
                            
@@ -458,11 +458,13 @@ def order_management():
         orders_list=[]
         for order in orders:
                 vehicle=Vehicle.query.filter_by(id=order.product_id).first()
+
                 if vehicle:
                     orders_list.append({
                         'order':order,
                         'vehicle': vehicle
                     })
+
                 if order.finish.date() < date.today() :
                     order.state = "Finished"
                     vehicle.owner_id=None
