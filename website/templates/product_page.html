@@ -1,0 +1,211 @@
+{% extends 'base.html'%} {%block content %} 
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        
+        
+        <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+    
+        <title>Vehicle Page</title>
+    
+  
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <!-- Vendor CSS Files -->
+    <link href="{{ url_for('static', filename='vendor/aos/aos.css') }}" rel="stylesheet">
+    
+  <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+  
+  
+    <!-- Template Main CSS File -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+      <style>
+        .custom-margin-right {
+          margin-right: 200px; /* Adjust the value as needed */
+      }
+      </style>
+      </head>
+    <body>
+        <section id="topbar" class="d-flex align-items-center">
+            <div class="container d-flex justify-content-center justify-content-md-between">
+                <div class="contact-info d-flex align-items-center">
+                    <i class="bi bi-envelope-fill"></i><a href="mailto:contact@example.com">luxurywheels@gmail.com</a>
+                    <i class="bi bi-phone-fill phone-icon"></i> +351 917493251
+                  </div>
+                  <div class="social-links d-none d-md-block">
+                    {% if current_user.is_authenticated %} 
+                    {% if cart %}
+                        <button onclick="window.location.href='{{ url_for('auth.order_management') }}';" name="cart-orders"
+                        style="width: 300px"
+                        class="btn btn-success mr-5 custom-margin-right"
+                        >
+                        <b>Your cart {{ "🛒" }}</b>
+                        </button>
+                    {%endif%} 
+                    {%endif%}
+                      <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                      <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                      <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                      <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+                  </div>
+              </div>
+          </section>
+        <header id="header" class="d-flex align-items-center">
+            <div class="container d-flex align-items-center justify-content-between">
+        
+              <h1 class="logo" style="font-family:Old Standard TT; font-size:35px;"><a href="{{ url_for('views.home_page') }}">Vehicle Page</a></h1>
+              <!-- Uncomment below if you prefer to use an image logo -->
+              <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+        
+              <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a class="nav-link scrollto" href="{{ url_for('views.home_page') }}">Home</a></li>
+                        <li><a class="nav-link scrollto" href="{{ url_for('views.home_page') }}#about">About</a></li>
+                        <li><a class="nav-link scrollto" href="{{ url_for('views.home_page') }}#services">Services</a></li>
+                        <li><a class="nav-link scrollto" href="{{ url_for('views.home_page') }}#portfolio">Fleet</a></li>
+                        <li><a class="nav-link scrollto" href="{{ url_for('views.home_page') }}#pricing">Pricing</a></li>
+                        <li><a class="nav-link scrollto" href="{{ url_for('views.home_page') }}#team">Team</a></li>
+                        <li><a class="nav-link scrollto" href="{{ url_for('views.home_page') }}#contact">Contact</a></li>
+                  </ul>
+                <ul>
+                  <li><a class="nav-link scrollto " href="{{url_for('auth.purchase')}}">
+                    <i class="bi-cart-fill me-1"></i>
+                    <span class="badge bg-dark text-white ms-1 rounded-pill"></span>Cart
+                    </a>
+                </li>
+                  
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+              </nav><!-- .navbar -->
+        
+            </div>
+          </header><!-- End Header -->
+        <!-- Product section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5">
+                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="../static/vehicles/{{vehicle.image}}" alt="vehicle photo" /></div>
+                    <div class="col-md-6 d-flex flex-column justify-content-between">
+                        <div>
+                        <div class="small mb-1">BARCODE: {{vehicle.item_barcode}}</div>
+                        <h1 class="display-5 fw-bolder">{{vehicle.item_name}} {{vehicle.item_model}}</h1>
+                        <div class="fs-5 mb-5">
+                            {% if vehicle.item_price == 600 %}
+                                <span>Category: Gold</span>
+                            {% elif vehicle.item_price == 250 %}
+                                <span>Category: Silver</span>
+                            {% elif vehicle.item_price == 50 %}
+                                <span>Category: Economic</span>
+                                    
+                                    {% endif %}
+                            
+                        </div>
+                                <span>Daily: {{vehicle.daily_price}}&euro;</span>
+                        
+                        </div>
+                        <div class="row mb-1 mt-4">
+                        <form method="POST" action="{{ url_for('auth.product_page', vehicle_id=vehicle.id) }}"> 
+                            {{ ordertimeform.hidden_tag() }}
+                            <div class="row mb-4">
+                                <div class="col">
+                                {{ordertimeform.start.label(class="form-label mt-4")}}
+                                  {{ordertimeform.start(class="form-select col-10")}}
+                            </div>
+                        <div class="col">
+                                
+                                {{ordertimeform.finish.label(class="form-label mt-4")}}
+                                    {{ordertimeform.finish(class="form-select col-10")}}
+                          </div>
+                         
+                    </div>
+                         </div>
+                         
+                            {{ordertimeform.submit(class="btn btn-outline-dark flex-shrink-0" ,id="add_to_cart")}}
+                              
+                        </form>
+
+                        
+                        </div>
+                    </div>
+                        <p class="lead mt-4" style="margin-bottom:1.5em;">{{vehicle.desc.replace("\n", "<br>")|safe}}</p>
+                        
+                    </div>
+                    <div class="container px-4 px-lg-5 my-5">
+                    <div class="row">
+                    <div class="col d-flex align-items-start ">
+                        <a href="{{ url_for('auth.market_page') }}" class="btn btn-outline-dark flex-shrink-0">&lt;Back</a>
+                        </div>
+                        <div class="col d-flex justify-content-end">
+                            <form >
+                                <a href="{{url_for('auth.purchase')}}" class="btn btn-outline-dark  align-items-end ">
+                                    {{'🛒'}}
+                                    Cart
+                                </a>
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+                
+                
+            </div>
+        </section>
+        <!-- Related items section-->
+        <section class="py-5 bg-light">
+            <div class="container px-4 px-lg-5 mt-5">
+                <h2 class="fw-bolder mb-4">Related products</h2>
+                <div class="row gx-4 gx-lg-5 justify-content-left">
+                    {% for related_vehicle in related_products %}
+                    <div class="col mb-4" style="flex: 0 0 auto; width: 25%;">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="../static/vehicles/{{ related_vehicle.image }}" alt="related vehicle image" />
+                            <!-- Product details-->
+                            <div class="card-body p-4"style="height: 120px" >
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">{{ related_vehicle.item_name }} {{ related_vehicle.item_model }}</h5>
+                                    <!-- Product price-->
+                                    {% if related_vehicle.item_price == 600 %}
+                                        <p>Category: Gold</p>
+                                    {% elif related_vehicle.item_price == 250 %}
+                                        <p>Category: Silver</p>
+                                    {% elif related_vehicle.item_price == 50 %}
+                                        <p>Category: Economic</p>
+                                    {% endif %}
+                                    Daily: {{ related_vehicle.daily_price }}&euro;
+                                </div>
+                            </div>
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-info mt-auto" href="{{ url_for('auth.product_page', vehicle_id=related_vehicle.id) }}">View options</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer-->
+        <footer class="py-5 bg-dark">
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2024</p></div>
+        </footer>
+
+        
+        <!--Jscript-->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <!--CSS-->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+    
+</html>
+{% endblock%}

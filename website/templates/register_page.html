@@ -1,0 +1,281 @@
+{% extends 'base.html'%} {%block content %} 
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Register Page</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="../static/img/favicon.png" rel="icon">
+  <link href="../static/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{{ url_for('static', filename='vendor/aos/aos.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="../static/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Day
+  * Updated: Jul 27 2023 with Bootstrap v5.3.1
+  * Template URL: https://bootstrapmade.com/day-multipurpose-html-template-for-free/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body >
+
+  <!-- ======= Top Bar ======= -->
+  <section id="topbar" class="d-flex align-items-center">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+      <div class="contact-info d-flex align-items-center">
+        <i class="bi bi-envelope-fill"></i><a href="mailto:contact@example.com">info@luxurywheels.com</a>
+        <i class="bi bi-phone-fill phone-icon"></i> +1 5589 55488 55
+      </div>
+      <div class="social-links d-none d-md-block">
+        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <h1 class="logo"><a href="{{ url_for('views.home_page') }}">Luxury Wheels</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto " href="{{ url_for('views.home_page') }}">Home</a></li>
+          <li><a class="nav-link scrollto" href="#about">About</a></li>
+          <li><a class="nav-link scrollto" href="#services">Services</a></li>
+          <li><a class="nav-link scrollto " href="#portfolio">Portfolio</a></li>
+          <li><a class="nav-link scrollto" href="#pricing">Pricing</a></li>
+          <li><a class="nav-link scrollto" href="#team">Team</a></li>
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('auth.login_page')}}">Login</a>
+           </li>
+           <li class="nav-item">
+              <a class="nav-link" href="{{url_for('auth.register_page')}}">Register</a>
+           </li>
+          </li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+      <div class="container">
+
+        <ol>
+          <li><a href="{{ url_for('views.home_page') }}">Home</a></li>
+          <li>Register Page</li>
+        </ol>
+        <h2>Register Page</h2>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
+    <section class="inner-page breadcrumbs">
+     
+        <form method="POST" class="form-register" style="max-width:480px;margin:auto;" action="{{ url_for('auth.register_page') }}">
+          {{ form.hidden_tag() }}
+          <fieldset>
+              <legend><b>Register</b></legend>
+              
+              <div class="row">
+                <div class="col">
+                      <b>{{ form.first_name.label(class="form-label mt-4")}}</b>
+                         {{ form.first_name(class="form-control ", placeholder="Enter first name") }}
+                </div>
+                <div class="col">
+                      <b>{{ form.surname.label(class="form-label mt-4")}}</b>
+                      {{ form.surname(class="form-control ", placeholder="Enter surname") }}
+                </div>
+            </div>
+                <b>{{ form.email_address.label(class="form-label mt-4")}}</b>
+                      {{ form.email_address(class="form-control ", placeholder="Enter email") }}
+              <div class="row">
+                <div class="col">
+                <b>{{ form.password1.label(class="form-label mt-4")}}</b>
+                      {{ form.password1(class="form-control ", placeholder="Enter your password") }}
+                </div>
+                <div class="col">
+                    <b>{{ form.password2.label(class="form-label mt-4")}}</b>
+                    {{ form.password2(class="form-control ", placeholder="Confirm password") }}
+                </div>
+              </div>
+                    <b>{{form.gender.label(class="form-label mt-4")}}</b>
+                    {{ form.gender(class="form-select") }}
+              <div class="row">
+                <div class="col">
+                        <b>{{form.phone_code.label(class="form-label mt-4")}}</b>
+                        {{ form.phone_code(class="form-select") }}
+                </div>
+                <div class="col">
+                    
+                        <b>{{form.phone_number.label(class="form-label mt-4")}}</b>
+                         {{ form.phone_number(class="form-control ", placeholder="Phone number") }}
+                </div>
+            </div>
+            <hr>
+            <h4>{{form.birth.label(class="form-label mt-4")}}</h4>
+            <div class="row">
+             <div class="col">
+                 {{form.birth (style="border: 1px solid #ccc; padding: 10px;border-radius: 5px;" )}}
+                 
+            </div>
+            </div>
+                    <hr>
+                    <h4>{{form.category.label(class="form-label mt-4")}}</h4>
+                        {{form.category(class="form-select")}}
+            <hr>
+            <h4>{{form.driver_license.label(class="form-label mt-4")}}</h4>
+                {{ form.driver_license(class="form-control", placeholder="Enter your license number") }}
+              <hr>
+              <h4> {{form.id_passport.label(class="form-label mt-4")}}</h5>
+                {{ form.id_passport(class="form-control ", placeholder="Enter your identification") }}
+              
+                <fieldset  class="form-group">
+                  <legend class="mt-4 ">Terms and conditions</legend>
+                  <div class="form-check form-switch">
+                    <style>
+                      .form-check-input {
+                      border-color: red !important;
+                      }
+                  
+                    .form-check-input:checked{
+                      background-color: red !important ;
+                      border-color: red !important;
+                    }
+                    
+                    </style>
+                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">                
+                    <label class="form-check-label" for="flexSwitchCheckDefault">I read terms and conditions</label>
+                  </div>
+                </fieldset>
+                  <br>
+                    <div class="row">
+                      
+                          {{ form.submit(class="btn btn-lg btn-block mt-4 col mb-4", style="background: linear-gradient(90deg, #f94d56, #c31212); border: none; color: white;") }}                        
+                    
+                        </div>
+                     </fieldset>   
+          </form>
+                    <div class="col mb-4 text-center">
+                          <p class="text-muted mt-4">Have already an account? <a href="{{url_for('auth.login_page')}}"  class="fw-bold" style="color:rgb(206, 57, 57);"><u>Login here</u></a></p>
+                        </div>
+                    
+                    
+                  
+              
+          
+      
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-info">
+              <h3>Luxury Wheels</h3>
+              <p>
+                A108 Adam Street <br>
+                NY 535022, USA<br><br>
+                <strong>Phone:</strong> +1 5589 55488 55<br>
+                <strong>Email:</strong> luxurywheels@gmail.com<br>
+              </p>
+              <div class="social-links mt-3">
+                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4>Our Services</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">24/7 Roadside Assistance</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Flexible Rental Periods</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Wide Range of Vehicles</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Free Cancellation Policy</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Comprehensive Insurance Options</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Airport Pickup and Drop-off Services</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-4 col-md-6 footer-newsletter">
+            <h4>Our Newsletter</h4>
+            <p>Stay ahead of the curve with our exclusive updates and offers—subscribe to our newsletter and never miss out</p>
+            <form action="{{ url_for('views.home_page')}}" >
+              <input type="email" name="email"><input type="submit" value="Subscribe">
+            </form>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Luxury Wheels</span></strong>. All Rights Reserved
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <div id="preloader"></div>
+
+ 
+  <!-- Template Main JS File -->
+  <script src="../static/js/main.js"></script>
+<!--CSS-->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</body>
+
+</html>
+{% endblock%}

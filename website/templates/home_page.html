@@ -1,0 +1,726 @@
+{% extends 'base.html'%}
+{%block content %} 
+<html lang="en">
+
+<head>
+  
+
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+   
+  <title>Home Page</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{{ url_for('static', filename='vendor/aos/aos.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+
+
+  <!-- Template Main CSS File -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+<style>
+  .custom-margin-right {
+    margin-right: 200px; 
+}
+</style>
+  
+</head>
+
+<body>
+
+  <!-- ======= Top Bar ======= -->
+  <section id="topbar" class="d-flex align-items-center">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+      <div class="contact-info d-flex align-items-center">
+        <i class="bi bi-envelope-fill"></i><a href="mailto:contact@example.com">gabriel.monginho@gmail.com</a>
+        <i class="bi bi-phone-fill phone-icon"></i> +351917493251
+      </div>  
+      <div class="social-links d-none d-md-block">
+      {% if current_user.is_authenticated %} 
+      {% if cart %}
+      <button 
+      
+      onclick="window.location.href='{{ url_for('auth.order_management') }}';" name="cart-orders"
+      style="width: 300px"
+      class="btn btn-success mr-5 custom-margin-right"
+      >
+      <b>Your cart {{ "🛒" }}</b>
+      </button>
+    
+    {%endif%} 
+    {%endif%}
+        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <h1 class="logo" style="font-family:Old Standard TT; font-size:34px;"><a href="{{url_for('views.home_page')}}">Luxury Wheels</a></h1>
+      
+      
+
+      <nav id="navbar" class="navbar">
+        
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="#about">About</a></li>
+          <li><a class="nav-link scrollto" href="#services">Research</a></li>
+          <li><a class="nav-link scrollto " href="#portfolio">Fleet</a></li>
+          <li><a class="nav-link scrollto" href="#pricing">Pricing</a></li>
+          <li><a class="nav-link scrollto" href="#team">Team</a></li>
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+          {% if current_user.is_authenticated %}
+          
+            <li class="nav-item">
+              <a class="nav-link text-white" >Welcome, {{current_user.first_name}}</a>
+           </li>
+           <li class="nav-item">
+              <a class="nav-link" href="{{url_for('auth.logout_page')}}">Logout</a>
+           </li>
+
+          {%else%}
+            
+               <li class="nav-item">
+                  <a class="nav-link" href="{{url_for('auth.login_page')}}">Login</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="{{url_for('auth.register_page')}}">Register</a>
+               </li>
+            
+          {%endif%}
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative" data-aos="fade-up" data-aos-delay="500">
+      <h1 style="position:relative;bottom:35px;">Welcome to</h1>
+      {% if current_user.is_authenticated %}
+      <a style="position:relative;" href="{{url_for('auth.market_page')}}" class="btn-get-started scrollto">Get Started</a></div>
+      {%else%}
+      <a style="position:relative;" href="{{url_for('auth.login_page')}}" class="btn-get-started scrollto">Get Started</a></div>
+
+      {%endif%}
+      
+      
+      </div>
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= About Section ======= -->
+    <section style="background-color:rgb(224, 229, 234)" id="about" class="about">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left">
+            <img src="{{ url_for('static', filename='img/fotoabout.jpeg') }}" class="img-fluid" alt="">
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right">
+            <h3>Hello, we are Luxury Wheels, count with us if you want to take a ride.</h3>
+            <p class="fst-italic">
+              Welcome to Luxury Wheels, the best place to rent a car for your travel needs. Whether you are looking for a short-term or long-term rental, we have the perfect car for you. 
+            </p>
+            <ul>
+              <li><i class="bi bi-check-circle"></i> A wide range of cars, from economy to luxury, from compact to SUV, from electric to hybrid. You can choose the car that suits your style, budget, and destination.</li>
+              <li><i class="bi bi-check-circle"></i> More than 15 years of experience in the car rental industry </li>
+              <li><i class="bi bi-check-circle"></i> Free cancellation, unlimited mileage, and 24/7 customer support.</ul>
+            <p>
+              At our company, we are more than just a car rental company. We are a team of professionals who are passionate about cars and travel. We are also committed to providing you with a safe and comfortable car rental experience. We follow strict hygiene and sanitation protocols to ensure that our cars are clean and disinfected. We also equip our cars with GPS, Wi-Fi, and entertainment systems to make your journey more enjoyable. We value your safety and satisfaction and we strive to make your car rental experience as easy and convenient as possible. Luxury Wheels is the ultimate destination for travelers who want to rent a car for their trips. Book today and get ready to explore the world with your dream car!
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Section -->
+
+    <!-- ======= Why Us Section ======= -->
+    <section style="background-color:rgb(224, 229, 234)" id="why-us" class="why-us">
+      <div class="container">
+
+        <div class="row">
+
+          <div class="col-lg-4" data-aos="fade-up">
+            <div class="box">
+              <span>01</span>
+              <h4>Customer Satisfaction</h4>
+              <p>At the heart of our mission lies the unwavering commitment to ensuring every client's needs are met with excellence and care</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="150">
+            <div class="box">
+              <span>02</span>
+              <h4>Innovation</h4>
+              <p>We are proud to present you with a clear and pratical site to improve your experience on rent time</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
+            <div class="box">
+              <span>03</span>
+              <h4> Integrity</h4>
+              <p>Our foundation is built on honesty and transparency, fostering trust with our clients through every interaction</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+    <!-- End Why Us Section -->
+
+  
+
+    <!-- ======= Services Section ======= -->
+    <section style="background-color:rgb(224, 229, 234)" id="services" class="services">
+      <div class="container">
+
+        <div class="section-title">
+          <span>What are you looking for?</span>
+          <h2>What are you looking for?</h2>
+          <p>Explore our tailored services designed to enhance your rental experience, offering everything from seamless pick-ups to complete peace of mind on the road</p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bxl-dribbble"></i></div>
+              <h4>24/7 Roadside Assistance</h4>
+              <p>Enjoy peace of mind on your journeys with our round-the-clock support for any roadside emergencies</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="fade-up" data-aos-delay="150">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-file"></i></div>
+              <h4>Flexible Rental Periods</h4>
+              <p>Choose from short-term rentals to long-term leases, tailored to meet your schedule and needs</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-tachometer"></i></div>
+              <h4>Wide Range of Vehicles</h4>
+              <p>From economical city cars to luxurious SUVs, find the perfect vehicle that fits your style and purpose</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4" data-aos="fade-up" data-aos-delay="450">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-world"></i></div>
+              <h4>Free Cancellation Policy</h4>
+              <p>Plan with confidence knowing you can modify or cancel your reservation with no extra fees up to 24 hours before pickup</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4" data-aos="fade-up" data-aos-delay="600">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-slideshow"></i></div>
+              <h4>Comprehensive Insurance Options</h4>
+              <p>Drive assured with our variety of insurance coverage options designed for your safety and peace of mind</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4" data-aos="fade-up" data-aos-delay="750">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-arch"></i></div>
+              <h4>Airport Pickup and Drop-off Services</h4>
+              <p>Begin and end your travels effortlessly with our convenient airport transfer services, available at major airports</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+
+    <!-- ======= Cta Section ======= -->
+    <section style="background-color:rgb(224, 229, 234)" id="cta" class="cta">
+      <div class="container" data-aos="zoom-in">
+
+        <div class="text-center">
+          <h3>Call To Action</h3>
+          <p> Unlock Your Potential Now - Click Here to Dive into Excellence!</p>
+          <a class="cta-btn" href="#">Call To Action</a>
+        </div>
+
+      </div>
+    </section><!-- End Cta Section -->
+
+    <!-- ======= Portfolio Section ======= -->
+    <section style="background-color:rgb(224, 229, 234)" id="portfolio" class="portfolio">
+      <div class="container">
+
+        <div class="section-title">
+          <span>Fleet</span>
+          <h2>Fleet</h2>
+          <p>Some vehicles you can find in our company available for you</p>
+        </div>
+
+        <div class="row" data-aos="fade-up">
+          <div class="col-lg-12 d-flex justify-content-center">
+            <ul id="portfolio-flters">
+              <li data-filter="*" class="filter-active">All</li>
+              <li data-filter=".filter-app">Car</li>
+              <li data-filter=".filter-card">Moto</li>
+              <li data-filter=".filter-web">Suv's</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="150">
+
+          <div class="col-lg-4 col-md-2 portfolio-item filter-app">
+            <img src="{{ url_for('static', filename='vehicles/porschecarro.jpeg') }}" class="img-fluid" alt="Porsche panamera">
+            <div class="portfolio-info">
+              <h4>Porsche</h4>
+              <p>Panamera</p>
+              <a href="{{ url_for('static', filename='vehicles/porschecarro.jpeg') }}" data-gallery="portfolioGallery" class="preview-link" ><i class="bx bx-plus"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+           
+            <img src="{{ url_for('static', filename='vehicles/audir8carro.jpeg') }}" class="img-fluid" alt="Audi r8">
+            <div class="portfolio-info">
+              <h4>Audi</h4>
+              <p>R8</p>
+              <a href="{{ url_for('static', filename='vehicles/audir8carro.jpeg') }}" data-gallery="portfolioGallery" class="preview-link"><i class="bx bx-plus"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+            <img src="{{ url_for('static', filename='vehicles/Volkswagencarro (2).jpeg') }}" class="img-fluid" alt="Volkswagen Polo">
+            <div class="portfolio-info">
+              <h4>Volkswagen</h4>
+              <p>Polo</p>
+              <a href="{{ url_for('static', filename='vehicles/Volkswagencarro (2).jpeg') }}" data-gallery="portfolioGallery" class=" preview-link"><i class="bx bx-plus"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+            <img src="{{ url_for('static', filename='vehicles/audisuv(2).jpeg') }}" class="img-fluid" alt="Audi q7">
+            <div class="portfolio-info">
+              <h4>Audi</h4>
+              <p>Q7</p>
+              <a href="{{ url_for('static', filename='vehicles/audisuv(2).jpeg') }}" data-gallery="portfolioGallery" class="preview-link" ><i class="bx bx-plus"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+            <img src="{{ url_for('static', filename='vehicles/yamahamt125mota.jpeg') }}" class="img-fluid" alt="Yamaha 125">
+            <div class="portfolio-info">
+              <h4>Yamaha</h4>
+              <p>125</p>
+              <a href="{{ url_for('static', filename='vehicles/yamahamt125mota.jpeg') }}" data-gallery="portfolioGallery" class="preview-link"><i class="bx bx-plus"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+            <img src="{{ url_for('static', filename='vehicles/volkswagensuv.jpeg') }}" class="img-fluid" alt="Volkswagen Tuareg">
+            <div class="portfolio-info">
+              <h4>Volkswagen</h4>
+              <p>Tuareg</p>
+              <a href="{{ url_for('static', filename='vehicles/volkswagensuv.jpeg') }}" data-gallery="portfolioGallery" class="preview-link"><i class="bx bx-plus"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+            <img src="{{ url_for('static', filename='vehicles/mercedescarro (3).jpeg') }}" class="img-fluid" alt="Mercedes slk">
+            <div class="portfolio-info">
+              <h4>Mercedes</h4>
+              <p>SLK</p>
+              <a href="{{ url_for('static', filename='vehicles/mercedescarro (3).jpeg') }}" data-gallery="portfolioGallery" class="preview-link"><i class="bx bx-plus"></i></a>
+            </div>
+          </div>
+          
+          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+            <img src="{{ url_for('static', filename='vehicles/Mercedescarro.jpeg') }}" class="img-fluid" alt="Mercedes cls">
+            <div class="portfolio-info">
+              <h4>Mercedes</h4>
+              <p>CLS</p>
+              <a href="{{ url_for('static', filename='vehicles/Mercedescarro.jpeg') }}" data-gallery="portfolioGallery" class="preview-link" ><i class="bx bx-plus"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+            <img src="{{ url_for('static', filename='vehicles/opelcarro.jpeg') }}" class="img-fluid" alt="Opel Astra">
+            <div class="portfolio-info">
+              <h4>Opel</h4>
+              <p>Astra</p>
+              <a href="{{ url_for('static', filename='vehicles/opelcarro.jpeg') }}" data-gallery="portfolioGallery" class="review-link" ><i class="bx bx-plus"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+            <img src="{{ url_for('static', filename='vehicles/peugeotcarro.jpeg') }}" class="img-fluid" alt="Peugeot 207">
+            <div class="portfolio-info">
+              <h4>Peugeot</h4>
+              <p>207</p>
+              <a href="{{ url_for('static', filename='vehicles/peugeotcarro.jpeg') }}" data-gallery="portfolioGallery" class="preview-link" ><i class="bx bx-plus"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+            <img src="{{ url_for('static', filename='vehicles/skodacarro.jpeg') }}" class="img-fluid" alt="Skoda Fabia">
+            <div class="portfolio-info">
+              <h4>Skoda</h4>
+              <p>Fabia</p>
+              <a href="{{ url_for('static', filename='vehicles/skodacarro.jpeg') }}" data-gallery="portfolioGallery" class= "preview-link" ><i class="bx bx-plus"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+            <img src="{{ url_for('static', filename='vehicles/volkswagencarro.jpeg') }}" class="img-fluid" alt="Volkswagen Polo">
+            <div class="portfolio-info">
+              <h4>Volkswagen</h4>
+              <p>Polo</p>
+              <a href="{{ url_for('static', filename='vehicles/volkswagencarro.jpeg') }}" data-gallery="portfolioGallery" class=" preview-link" ><i class="bx bx-plus"></i></a>
+            </div>
+          </div>
+          
+          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+            <img src="{{ url_for('static', filename='vehicles/Hondatrx400mota.jpeg') }}" class="img-fluid" alt="Honda Trx">
+            <div class="portfolio-info">
+              <h4>Honda</h4>
+              <p>Trx 400</p>
+              <a href="{{ url_for('static', filename='vehicles/Hondatrx400mota.jpeg') }}" data-gallery="portfolioGallery" class="preview-link" ><i class="bx bx-plus"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+            <img src="{{ url_for('static', filename='vehicles/Audisuv.jpeg') }}" class="img-fluid" alt="Audi q7">
+            <div class="portfolio-info">
+              <h4>Audi</h4>
+              <p>Q7</p>
+              <a href="{{ url_for('static', filename='vehicles/Audisuv.jpeg') }}" data-gallery="portfolioGallery" class="preview-link" ><i class="bx bx-plus"></i></a>
+            </div>
+          </div>
+          
+          
+
+        </div>
+
+      </div>
+    </section><!-- End Portfolio Section -->
+
+    <!-- ======= Pricing Section ======= -->
+    <section style="background-color:rgb(224, 229, 234)" id="pricing" class="pricing">
+      <div class="container">
+
+        <div class="section-title">
+          <span>Pricing</span>
+          <h2>Pricing</h2>
+          <p>Choose the best option for your budget</p>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="150">
+            <div class="box">
+              <h3>Economic</h3>
+              <h4><sup>&euro;</sup>8<span> / day</span></h4>
+              <ul>
+                <li>Passport or national ID card</li>
+                <li>Driving licence</li>
+                <li>Security deposit</li>
+                <li class="na">Fuel Policy</li>
+                <li class="na">Mileage</li>
+              </ul>
+              <div class="btn-wrap">
+                <a href="{{url_for('auth.market_page')}}" class="btn-buy">Buy Now</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mt-4 mt-md-0" data-aos="zoom-in">
+            <div class="box featured">
+              <h3>Silver</h3>
+              <h4><sup>&euro;</sup>15<span> / day</span></h4>
+              <ul>
+                <li>Passport or national ID card</li>
+                <li>Driving licence</li>
+                <li>Security deposit</li>
+                <li>Fuel Policy</li>
+                <li class="na">Mileage</li>
+              </ul>
+              <div class="btn-wrap">
+                <a href="{{url_for('auth.market_page')}}" class="btn-buy">Buy Now</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="150">
+            <div class="box">
+              <h3>Gold</h3>
+              <h4><sup>&euro;</sup>29<span> / day</span></h4>
+              <ul>
+                <li>Passport or national ID card</li>
+                <li>Driving licence</li>
+                <li>Security deposit</li>
+                <li>Fuel Policy</li>
+                <li>Mileage</li>
+              </ul>
+              <div class="btn-wrap">
+                <a href="{{url_for('auth.market_page')}}" class="btn-buy">Buy Now</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Pricing Section -->
+
+    <!-- ======= Team Section ======= -->
+    <section style="background-color:rgb(224, 229, 234)" id="team" class="team">
+      <div class="container">
+
+        <div class="section-title">
+          <span>Team</span>
+          <h2>Team</h2>
+          <p>Our team is always ready to help you</p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in">
+            <div class="member">
+              <img src="" alt="">
+              <h4>Gabriel Monginho</h4>
+              <span>Chief Executive Officer</span>
+              <p>
+                Embodies the spirit of innovation and resilience, driving our company towards unparalleled success
+              </p>
+              <div class="social">
+                <a href=""><i class="bi bi-twitter"></i></a>
+                <a href=""><i class="bi bi-facebook"></i></a>
+                <a href=""><i class="bi bi-instagram"></i></a>
+                <a href=""><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in">
+            <div class="member">
+              <img src="" alt="">
+              <h4>Samantha Green</h4>
+              <span>Chief Financial Officer</span>
+              <p>
+                Brings a wealth of expertise and strategic foresight, steering our financial health with unmatched precision and insight
+              </p>
+              <div class="social">
+                <a href=""><i class="bi bi-twitter"></i></a>
+                <a href=""><i class="bi bi-facebook"></i></a>
+                <a href=""><i class="bi bi-instagram"></i></a>
+                <a href=""><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in">
+            <div class="member">
+              <img src="" alt="">
+              <h4>Alex Johnson</h4>
+              <span>Director of Operations</span>
+              <p>
+                Ensures excellence in every facet of our business, orchestrating seamless efficiency and operational brilliance
+              </p>
+              <div class="social">
+                <a href=""><i class="bi bi-twitter"></i></a>
+                <a href=""><i class="bi bi-facebook"></i></a>
+                <a href=""><i class="bi bi-instagram"></i></a>
+                <a href=""><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Team Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section style="background-color:rgb(224, 229, 234)" id="contact" class="contact">
+      <div class="container">
+
+        <div class="section-title">
+          <span>Contact</span>
+          <h2>Contact</h2>
+          <p>Feel free to contact us for some question</p>
+        </div>
+
+        <div class="row" data-aos="fade-up">
+          <div class="col-lg-6">
+            <div class="info-box mb-4">
+              <i class="bx bx-map"></i>
+              <h3>Our Address</h3>
+              <p>A108 Adam Street, New York, NY 535022</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="info-box  mb-4">
+              <i class="bx bx-envelope"></i>
+              <h3>Email Us</h3>
+              <p>luxurywheels@gmail.com</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="info-box  mb-4">
+              <i class="bx bx-phone-call"></i>
+              <h3>Call Us</h3>
+              <p>+1 5589 55488 55</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row" data-aos="fade-up">
+
+          <div class="col-lg-6 ">
+            <iframe class="mb-4 mb-lg-0" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" style="border:0; width: 100%; height: 384px;" allowfullscreen></iframe>
+          </div>
+
+          <div class="col-lg-6">
+            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+              <div class="row">
+                <div class="col-md-6 form-group">
+                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                </div>
+                <div class="col-md-6 form-group mt-3 mt-md-0">
+                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                </div>
+              </div>
+              <div class="form-group mt-3">
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+              </div>
+              <div class="form-group mt-3">
+                <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+              </div>
+              <div class="my-3">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+              </div>
+              <div class="text-center"><button type="submit">Send Message</button></div>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-info">
+              <h3>Luxury Wheels</h3>
+              <p>
+                A108 Adam Street <br>
+                NY 535022, USA<br><br>
+                <strong>Phone:</strong> +1 5589 55488 55<br>
+                <strong>Email:</strong> luxurywheels@gmail.com<br>
+              </p>
+              <div class="social-links mt-3">
+                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4>Our Services</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">24/7 Roadside Assistance</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Flexible Rental Periods</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Wide Range of Vehicles</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Free Cancellation Policy</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Comprehensive Insurance Options</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Airport Pickup and Drop-off Services</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-4 col-md-6 footer-newsletter">
+            <h4>Our Newsletter</h4>
+            <p>Stay ahead of the curve with our exclusive updates and offers—subscribe to our newsletter and never miss out</p>
+            <form action="{{ url_for('views.home_page')}}" >
+              <input type="email" name="email"><input type="submit" value="Subscribe">
+            </form>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright<strong><span>Luxury Wheels</span></strong>. All Rights Reserved
+      </div>
+      
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  
+
+  <!-- Vendor JS Files -->
+  <script src="../static/vendor/aos/aos.js"></script>
+  <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../static/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="../static/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="../static/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="../static/vendor/php-email-form/validate.js"></script>
+  <!--Jscript-->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+  <!-- Template Main JS File -->
+  <script src="../static/js/main.js"></script>
+  <!--CSS-->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</body>
+
+</html>
+{% endblock%}

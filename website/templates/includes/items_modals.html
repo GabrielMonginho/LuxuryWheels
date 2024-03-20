@@ -1,0 +1,89 @@
+<style>
+   .modal-header {
+   background:#191919;
+   }
+   .fade{
+    border-radius: 100 px;
+ 
+   }
+   .modal-body{
+    background: #191919;
+   }
+   .modal-footer{
+    background: #191919;
+   }
+   .modal-dialog {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     min-height: 100vh;
+ }
+ </style>
+ 
+ 
+ 
+ 
+ <div class="modal fade text-white" 
+   id="Modal-MoreInfo-{{vehicle.id}}"
+   tabindex="-1"
+   aria-labelledby="exampleModalLabel" aria-hidden="true">
+   
+   <div class="modal-dialog" >
+      <div class="modal-content"style="width: 500px">
+         <div class="modal-header">
+            <h5 id="ModalLabel">
+               
+               <b>{{vehicle.item_name}} {{vehicle.item_model}}</b>
+            </h5>
+            <button type="button" class="close text-white"
+               data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <div class="row">
+               <div class="col"><img class="card-img-top" src="../static/vehicles/{{vehicle.image}}"/>
+             </div>
+               <div class="col">
+                <div><b>{{vehicle.item_type}}</b></div>
+                <div><b>{{vehicle.passengers}}</b> Passangers</div>
+                <div>Daily price: <b>{{vehicle.daily_price}} &euro;</b> </div>
+                <div>Fuel: <b>{{vehicle.fuel}}</b></div>
+                <div><b>{{vehicle.doors}} </b>Doors</div>
+                <div>Baggage: <b>{{vehicle.baggage}}</b></div>
+                <div>Gear: <b>{{vehicle.gear}}</b></div>
+                
+                
+               </div>
+               <div class="col">
+                  <div>Power: <b>{{vehicle.power}} hp</b></div>
+                  <div>CO2: <b>{{vehicle.co2}} g/km</b> </div>
+                  <div>AC: <b>{{vehicle.AC}}</b></div>
+                  
+                  <div>LR: <b>{{vehicle.last_review}}</b></div>
+                  <div>NR: <b>{{vehicle.next_review}}</b></div>
+                  <div>Insp: <b>{{vehicle.inspection}}</b></div>
+ 
+               </div>
+ 
+ 
+ 
+ 
+         </div>
+       </div>
+    
+         <div class="modal-footer ">
+            <div class="row" >
+               <div class="col">
+                <button type="button" onclick="window.location.href='{{ url_for('auth.product_page', vehicle_id=vehicle.id) }}'" data-toggle="modal" data-target="#{{vehicle.id}}" class="btn btn-outline btn-info">Details</a>
+                </div>
+                
+       </div>
+         </div>
+      </div>
+   </div>
+ </div>
+ 
+ 
+ 
+ 
