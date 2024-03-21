@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\Teste\.vscode\.vscode\ProjetofinalCorrecao\website"
+VIRTUAL_ENV="C:\Users\Gabriel\.vscode\GitHub\LuxuryWheels\website"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
