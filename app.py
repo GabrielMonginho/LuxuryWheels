@@ -4,7 +4,7 @@ from website import app
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host='0.0.0.0')
+    app.run(debug=False)
 
 #pip install Flask==2.0.1
 #pip install Flask-SQLAlchemy==2.5.1
