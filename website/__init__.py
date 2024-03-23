@@ -4,19 +4,18 @@ from website.views import views
 from website.auth import auth
 from datetime import datetime
 from os import path
+import sqlalchemy
 import os
 
-ALLOWED_HOSTS= ['127.0.0.1','luxurywheelspt-150b26aeb6ff.herokuapp.com']
 app=Flask(__name__)
 app.config['SECRET_KEY']= 'c74c5f93863c5b92b46fb676'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 
 if os.getenv("DATABASE_URL"):
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
-
-
 
 
 db.init_app(app)
@@ -28,9 +27,14 @@ login_manager.login_message_category='info'
 app.register_blueprint(views, prefix_url='/')
 app.register_blueprint(auth, prefix_url='/')
 
-if not path.exists('database.db'):
+# create engine to check if database already exists
+engine = sqlalchemy.create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
+inspector = sqlalchemy.inspect(engine)
+
+if not inspector.has_table("user"):  
+
     with app.app_context():    
-        
+        db.drop_all()
         db.create_all()
        
         audiR81=Vehicle(item_name="Audi",item_type= "Car", item_model= "R8" , item_price= 600,daily_price= 29,item_barcode="783511" , passengers= 2,doors= 2, AC= "Yes", fuel="Gasoline", baggage= "Yes", gear= "7, Manual", power= 602, co2=293 ,image= "audicarroperfil.jpg", last_review=datetime.strptime("15/11/2023", "%d/%m/%Y").date(), next_review=datetime.strptime("15/02/2024", "%d/%m/%Y").date(), inspection=datetime.strptime("15/06/2023", "%d/%m/%Y").date(), desc="Discover the perfect union of performance and sophistication in the Audi R8. This automotive icon is not just a car; it's an engineering masterpiece, designed to elevate every journey to an unforgettable experience. With fluid lines that evoke movement even at rest, the R8 is a vision of pure elegance. \n\nUnder the hood lies a fierce heart: a V10 engine that delivers extraordinary performance, harmonized with a symphony of power that resonates with every acceleration. The precision of its handling, coupled with an interior meticulously designed for comfort and luxury, makes the Audi R8 more than a vehicle - it's a sanctuary of speed and style. \n\nEvery detail of the R8 has been thoughtfully considered, from the high-quality finishes to the cutting-edge technology, ensuring a driving experience that is both intuitive and exhilarating. This is not just a car to be seen - it is a car to be felt. \n\nIn the Audi R8, every journey is an adventure, every road a promise of unparalleled excitement. Come and feel the power, passion, and prestige that only the Audi R8 can offer.")
@@ -96,5 +100,6 @@ if not path.exists('database.db'):
         db.session.commit()
         db.session.close()
         
-        
+else:
+    print("base de dados ja existentes")        
         
