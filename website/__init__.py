@@ -4,12 +4,20 @@ from website.views import views
 from website.auth import auth
 from datetime import datetime
 from os import path
+import os
 
 ALLOWED_HOSTS= ['127.0.0.1','luxurywheelspt-150b26aeb6ff.herokuapp.com']
 app=Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
 app.config['SECRET_KEY']= 'c74c5f93863c5b92b46fb676'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+if os.getenv("DATABASE_URL"):
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
+
+
+
 
 db.init_app(app)
 bcrypt.init_app(app)
