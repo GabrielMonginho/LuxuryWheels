@@ -6,7 +6,9 @@ from datetime import datetime
 from os import path
 import sqlalchemy
 import os
+import certifi
 
+os.environ["SSL_CERT_FILE"]= certifi.where()
 app=Flask(__name__)
 app.config['SECRET_KEY']= 'c74c5f93863c5b92b46fb676'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
