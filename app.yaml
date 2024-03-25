@@ -1,0 +1,7 @@
+runtime: python39 # Especifica a versão do runtime do Python
+entrypoint: gunicorn -b :$PORT app:app # Comando personalizado para iniciar sua aplicação
+instance_class: F1 # Classe da instância que define a alocação de recursos
+
+handlers:
+  - url: /.* # Padrão de URL que indica quais URLs devem ser tratadas por esta aplicação
+    script: auto # Direciona as requisições para o aplicativo Python
