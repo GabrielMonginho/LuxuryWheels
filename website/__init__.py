@@ -14,10 +14,17 @@ app.config['SECRET_KEY']= 'c74c5f93863c5b92b46fb676'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
-if os.getenv("DATABASE_URL"):
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
+# Construct a DATABASE_URL only if the DATABASE_USER and DATABASE_PASSWORD variables exist
+if os.getenv("DATABASE_USER") and os.getenv("DATABASE_PASSWORD"):
+    database_user = os.getenv('DATABASE_USER')
+    database_password = os.getenv('DATABASE_PASSWORD')
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{database_user}:{database_password}@/database?unix_socket=/cloudsql/luxurywheels:europe-southwest1:database"
+elif os.getenv("DATABASE_URL"):
+    # Use DATABASE_URL if defined
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 else:
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
+    # Fallback to local SQLite if none of the previous variables are set
+    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///C:\\Users\\Gabriel\\.vscode\\GitHub\\LuxuryWheels\\website\\database/database.db"
 
 
 db.init_app(app)
