@@ -12,3 +12,8 @@ RUN pip install -r requirements.txt
 
 # Comando para executar a aplicação
 CMD ["gunicorn", "-b", ":8080", "app:app"]
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/luxurywheels', '.']
+images:
+- 'gcr.io/$PROJECT_ID/luxurywheels'
