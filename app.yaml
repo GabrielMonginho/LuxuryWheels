@@ -3,3 +3,4 @@ env: flex
 
 manual_scaling:
   instances: 1
+entrypoint: gunicorn -b :$PORT app:app
