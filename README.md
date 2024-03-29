@@ -32,7 +32,7 @@ The client should be able to:
 # Check out
 
 Now let's play with the website:
-    - **Access the market page** by clicking on main page 'GET STARTE' button or 'BUY NOW' button on pricing section.
+    - **Access the market page** by clicking on main page 'GET STARTE' button or 'BUY NOW' button on pricing section.\n
     - It's also important to notice that clients are not allowed to **rent any car with category highter than them category**, and if he tries, he will receive a warning message.
     - Any kind of **register error** will be noticed by a warning message.
     - Any **wrong date inserted** will be rejected with a warning message.
