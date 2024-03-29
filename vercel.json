@@ -1,12 +1,10 @@
 {
   "version": 2,
-  "builds": [
+
+  "routes": [
     {
-      "src": "app.py",
-      "use": "@vercel/python",
-      "env": {
-        "PIP_EXISTS": "true"
-      }
+      "src": "/(.*)",
+      "dest": "app.py"
     }
   ]
 }
