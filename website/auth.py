@@ -473,8 +473,3 @@ def order_management():
             return render_template('cart_management_page.html', orders_list=orders_list, vehicle=vehicle)
         except:
             return render_template('home_page.html')
-
-
-
-
-
