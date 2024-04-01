@@ -13,9 +13,9 @@ The client should be able to:
 ## Search for vehicles according to categories:
 
 - **Category**:
-  - Gold (Daily price: 29)
-  - Silver (Daily price: 15)
-  - Economic (Daily price: 8)
+  - Gold (Daily price: 29€)
+  - Silver (Daily price: 15€)
+  - Economic (Daily price: 8€)
 - Brand
 - Model
 - Type (Car, SUV, Motorcycle)
