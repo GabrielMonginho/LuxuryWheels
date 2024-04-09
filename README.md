@@ -1,6 +1,6 @@
 # LuxuryWheels
 
-SITE: https://luxurywheels.replit.app
+Website link: https://luxurywheels.replit.app
 
 **Simulated rental car website**
 
